@@ -1,0 +1,62 @@
+actions:
+  1:
+    action: replicas
+    description: "超过1天的logstash-%Y.%m.%d副本数设置成0"
+    options:
+      count: 0
+      wait_for_completion: True
+      disable_action: True
+    filters:
+    - filtertype: pattern
+      kind: prefix
+      value: k8s-
+    - filtertype: age
+      source: creation_date
+      direction: older
+      unit: days
+      unit_count: 1
+
+  2:
+    action: forcemerge
+    description: "强制合并超过1天的logstash-%Y.%m.%d为每片（每个shard不建议超过32G）2个segments(单个segments不建议超过5G)，自动跳过低于2个segments的，防止重复合并"
+    options:
+      max_num_segments: 2
+      delay: 120
+      timeout_override:
+      continue_if_exception: False
+      disable_action: True
+    filters:
+    - filtertype: pattern
+      kind: prefix
+      value: k8s-
+      exclude:
+    - filtertype: age
+      source: creation_date
+      direction: older
+      unit: days
+      unit_count: 1
+      exclude:
+    - filtertype: forcemerged
+      max_num_segments: 2
+      exclude:
+  3:
+    action: allocation
+    description: "将超过1天的logstash-%Y.%m.%d移动到cold节点上"
+    options:
+      key: box_type
+      value: cold
+      allocation_type: require
+      wait_for_completion: true
+      timeout_override:
+      continue_if_exception: false
+      disable_action: false
+    filters:
+    - filtertype: pattern
+      kind: prefix
+      value: k8s-
+    - filtertype: age
+      source: name
+      direction: older
+      timestring: '%Y.%m.%d'
+      unit: days
+      unit_count: 1

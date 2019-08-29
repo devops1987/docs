@@ -1,0 +1,32 @@
+filebeat:
+  prospectors:
+    - paths:
+        - /data/logs/app/*.log
+      fields:
+        log_topic: "app"
+
+    - paths:
+        - /data/logs/php/php-fpm.log
+        - /data/logs/php/php-error.log
+        - /data/logs/php/php-slow.
+        - /data/logs/php/php-fpm-error.log
+      fields:
+        log_topic: "php"
+
+    - paths:
+        - /data/logs/node/*.log
+      fields:
+        log_topic: "node"
+
+    - paths:
+        - /data/logs/nginx/access.*.log
+        - /data/logs/nginx/error.*.log
+      fields:
+        log_topic: "nginx"
+
+output:
+  kafka:
+    enable: true
+    hosts: ["172.16.70.38:9092"]
+    topic: '%{[fields.log_topic]}'
+    max_message_bytes: 1000000
