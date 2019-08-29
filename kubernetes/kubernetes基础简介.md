@@ -141,7 +141,7 @@
 
 ​	Kubernetes为每个Pod都分配了唯一的IP地址，一个Pod里的多个容器共享Pod IP地址。kubernetes要求底层网络支持集群内任意两个pod之间的TCP/IP直接通信，这通常采用虚拟二层网络技术来实现，例如Flannel、calico等。在kubernetes里，一个Pod里的容器与不通主机上的Pod容器能够直接通信。
 
-![k8s1](images\k8s1.jpg)
+![pod](../images/pod.jpg)
 
 #### 2.3.2、Pod创建过程
 
@@ -155,7 +155,7 @@
 - kubelet通过apiserver watch API监测到有新的Pod被调度过来了，就将Pod的相关数据传递给容器运行时（container runtime）例如Docker，让它运行此Pod
 - kubelet通过container runtime获取Pod的状态，然后通知给apiserver，由apiserver处理写入etcd。
 
-![k8s2](images\k8s2.png)
+![pod](../images/pod1.jpeg)
 
 #### 2.3.3、Endpoint
 
@@ -237,7 +237,7 @@
 
 #### 2.6.3、Deployment说明
 
-![k8s3](images/k8s3.png)
+![k8s3](../images/k8s3.png)
 
 - NAME：Deployment的名称
 - DESIRED：Pod副本数量的期望值，即Deployment里定义的replica。
@@ -246,7 +246,7 @@
 - AVAILABLE：当前集群中可用的Pod副本数量，即集群中当前存活的Pod数量。
 - AGE：Deployment创建时长
 
-![k8s4](images/k8s4.png)
+![k8s4](../images/k8s4.png)
 
 从上图可以看到，Pod的命名以Deployment对应的Reploca Set的名字为前缀，这种命名很清晰的表明了一个Replica Set创建了哪些Pod，对于Pod滚动升级这样复杂的过程来说，很容易排错。
 

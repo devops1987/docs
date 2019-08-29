@@ -2425,21 +2425,21 @@ helm install kubernetes-dashboard stable/kubernetes-dashboard \
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: admin-masonglin
+  name: admin-k8s
   namespace: kube-system
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: admin-masonglin
+  name: admin-k8s
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
 - kind: ServiceAccount
-  name: admin-masonglin
+  name: admin-k8s
   namespace: kube-system
 ```
 
