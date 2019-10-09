@@ -163,7 +163,7 @@ yum clean all && yum makecache fast
 
 ```
 swapoff -a
-sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab 或者 sed -i 's/.*swap.*/#&' /etc/fstab
+sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab 或者 sed -i 's/.*swap.*/#&/' /etc/fstab
 ```
 
 ### 4.6.关闭防火墙
